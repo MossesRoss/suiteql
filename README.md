@@ -12,10 +12,11 @@ Deploy it.
 Open the generated URL.
 
 ### Features
-Single File: No complex bundles or dependencies. Just one JS file.
-Instant Execution: Type SQL, get results. No UI lag.
-Modern UI: Clean, responsive interface using Tailwind CSS (CDN).
-Zero Overhead: Bypasses the slow Saved Search UI entirely.
+1. Single File: No complex bundles or dependencies. Just one JS file.
+2. Instant Execution: Type SQL, get results. No UI lag.
+3. Modern UI: Clean, responsive interface using Tailwind CSS (CDN).
+4. Zero Overhead: Bypasses the slow Saved Search UI entirely.
+5. Useful Shortcuts
 
 ### Credits
 Original Creator: Tim Dietrich
