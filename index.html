@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuiteQL Query Tool - v2025.6</title>
+    <title>SuiteQL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,7 +84,7 @@
                             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <div class="text-left">
                                 <div class="font-semibold">Download SuiteQL Tool</div>
-                                <div class="text-xs text-blue-100 opacity-90">v2025.6 • Single JS File • No Assets</div>
+                                <div class="text-xs text-blue-100 opacity-90">v2025.6 • suiteql-tool-sl.js • Single File</div>
                             </div>
                         </div>
                         <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity transform -translate-x-2 group-hover:translate-x-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -173,14 +173,14 @@
             <div id="view-deploy" class="view">
                 <div class="bg-white border border-zinc-200 rounded-xl p-8 shadow-sm">
                     <h2 class="text-xl font-semibold mb-6">Simple Deployment</h2>
-                    <p class="text-sm text-zinc-500 mb-6">Since this is a single-file solution (v2025.6), you do not need to upload separate HTML or CSS files.</p>
+                    <p class="text-sm text-zinc-500 mb-6">Single-file solution. No external assets needed.</p>
                     
                     <div class="space-y-8">
                         <div class="flex gap-4">
                             <div class="flex-shrink-0 w-8 h-8 bg-zinc-100 rounded-full flex items-center justify-center font-bold text-zinc-600">1</div>
                             <div>
                                 <h3 class="font-medium text-zinc-900">Download the Script</h3>
-                                <p class="text-sm text-zinc-500">Download <code class="bg-zinc-100 px-1 rounded text-zinc-800 font-mono">suiteql-v2.js</code> from the Overview tab.</p>
+                                <p class="text-sm text-zinc-500">Download <code class="bg-zinc-100 px-1 rounded text-zinc-800 font-mono">suiteql-tool-sl.js</code> from the Overview tab.</p>
                             </div>
                         </div>
 
@@ -220,7 +220,7 @@
                         <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">Latest</span>
                     </div>
                     <div class="p-6">
-                        <a href="#" class="text-google-blue hover:underline text-sm font-medium">Download v2025.6 Source</a>
+                        <a href="https://raw.githubusercontent.com/MossesRoss/SuiteQL-Tool/main/suiteql-tool-sl.js" target="_blank" class="text-google-blue hover:underline text-sm font-medium">Download v2025.6 Source</a>
                     </div>
                     
                     <div class="px-6 py-4 border-b border-zinc-100 bg-zinc-50 flex justify-between items-center border-t">
@@ -274,9 +274,36 @@
         document.addEventListener('DOMContentLoaded', () => {
             const downloadLink = document.getElementById('downloadLink');
             if (downloadLink) {
-                downloadLink.addEventListener('click', (e) => {
+                downloadLink.download = 'suiteql-tool-sl.js';
+                downloadLink.href = 'https://raw.githubusercontent.com/MossesRoss/SuiteQL-Tool/main/suiteql-tool-sl.js';
+                
+                downloadLink.addEventListener('click', async (e) => {
                     e.preventDefault();
-                    alert('In a real environment, this would download suiteql-v2.js, suiteql.html, suiteql.css, and suiteql.js.');
+                    
+                    const originalContent = downloadLink.innerHTML;
+                    downloadLink.innerHTML = `<div class="flex items-center"><svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Downloading...</div>`;
+                    
+                    try {
+                        const response = await fetch(downloadLink.href);
+                        if (!response.ok) throw new Error('Network error');
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const tempLink = document.createElement('a');
+                        tempLink.href = url;
+                        tempLink.setAttribute('download', 'suiteql-tool-sl.js');
+                        document.body.appendChild(tempLink);
+                        tempLink.click();
+                        document.body.removeChild(tempLink);
+                        window.URL.revokeObjectURL(url);
+                        
+                        downloadLink.innerHTML = `<div class="flex items-center">Download Complete</div>`;
+                        setTimeout(() => { downloadLink.innerHTML = originalContent; }, 2000);
+
+                    } catch (error) {
+                        console.error('Download failed:', error);
+                        window.open(downloadLink.href, '_blank');
+                        downloadLink.innerHTML = originalContent; 
+                    }
                 });
             }
         });
