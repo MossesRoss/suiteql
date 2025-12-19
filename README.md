@@ -1,5 +1,5 @@
 # SuiteQL Query Tool
-v2025.1
+v2025.6
 
 A lightweight, zero-dependency Suitelet for running direct SQL queries within NetSuite. Built for developers who need raw data access without the overhead of Saved Searches.
 
